@@ -10,3 +10,7 @@ def client_list(request):
 def detail(request, id):
     client = Client.objects.get(id=id)
     return render(request, f"{client.qayerga.lower()}.html", {"client": client})
+
+def new_client(request):
+    if request.method == "POST":
+        pass
