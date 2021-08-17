@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw
 
 
 class Client(models.Model):
-    GENDERS = (("erkak", "male"), ("female", "female"))
+    GENDERS = (("male", "erkak"), ("female", "ayol"))
     VERSIONS = (("Qirgiziston", "Qirgiziston"), ("Boshqa", "Boshqa"))
     full_name = models.CharField(max_length=255)
     date_of_birth = models.DateField()
@@ -24,8 +24,8 @@ class Client(models.Model):
 
 
     def save(self, *args, **kwargs):
-        qrcode_img = qrcode.make(f"http://192.168.1.82:8000/people/{self.id}")
-        canvas = Image.new('RGB', (290, 290), 'white')
+        qrcode_img = qrcode.make(f"http://172.20.10.2:8000/people/{self.id}")
+        canvas = Image.new('RGB',  (qrcode_img.pixel_size, qrcode_img.pixel_size), 'white')
         draw = ImageDraw.Draw(canvas)
         canvas.paste(qrcode_img)
         fname = f'{self.full_name}.png'
@@ -34,3 +34,6 @@ class Client(models.Model):
         self.qrcode.save(fname, File(buffer), save=False)
         canvas.close()
         super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ('-id',)
