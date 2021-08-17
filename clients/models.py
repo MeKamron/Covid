@@ -3,6 +3,8 @@ from io import BytesIO
 import qrcode
 from django.core.files import File
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from PIL import Image, ImageDraw
 
 
@@ -23,9 +25,9 @@ class Client(models.Model):
         return self.full_name
 
 
-    def save(self, *args, **kwargs):
+    def update_qrcode(self, *args, **kwargs):
         qrcode_img = qrcode.make(f"http://172.20.10.2:8000/people/{self.id}")
-        canvas = Image.new('RGB',  (qrcode_img.pixel_size, qrcode_img.pixel_size), 'white')
+        canvas = Image.new('RGB', (qrcode_img.pixel_size, qrcode_img.pixel_size), 'white')
         draw = ImageDraw.Draw(canvas)
         canvas.paste(qrcode_img)
         fname = f'{self.full_name}.png'
@@ -39,7 +41,16 @@ class Client(models.Model):
         ordering = ('-id',)
 
 
+@receiver(post_save, sender=Client)
+def update_qrcode(sender, instance, created, **kwargs):
+    if created:
+        instance.update_qrcode()
+
 class Info(models.Model):
     research_method = models.CharField(max_length=255)
     name_of_labaratory = models.CharField(max_length=255)
     head_of_labaratory = models.CharField(max_length=255)
+    manzil = models.CharField(max_length=355)
+    telfon = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255)
+
