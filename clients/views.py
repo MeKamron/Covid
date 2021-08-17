@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
+from .forms import ClientForm
 from .models import Client
 
 
@@ -13,4 +14,10 @@ def detail(request, id):
 
 def new_client(request):
     if request.method == "POST":
-        pass
+        form = ClientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/people/')
+    else:
+        form = ClientForm()
+    return render(request, "forma.html", {"form": form})

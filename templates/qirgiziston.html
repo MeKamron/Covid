@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +44,7 @@
                                                 confirmation of covid-19 test result
                                             </h1>
                                             <div class="text-center">
-                                                <img src="./logo.png" class="rounded" width="200px" alt="...">
+                                                <img src="{% static 'img/logo.png' %}" class="rounded" width="200px">
                                             </div>
                                             <h1 class="text-center text-uppercase"> 
                                                 министерство здравоохранения республики узбекистан <br> подтверждение ресультата теста covid-19
@@ -103,7 +104,7 @@
                                                 <div class="col"><b>Passport | Серия и номер паспорта:</b></div>
                                             </div>
                                             <div class="text-dark p-2" style="background-color: #a8adb8;">
-                                                <b>FA3261313</b>
+                                                <b>{{ client.passport }}</b>
                                             </div>
                                         </div>
 
@@ -123,7 +124,7 @@
                                                 <div class="col"><b>Birth date / Дата рождения</b></div>
                                             </div>
                                             <div class="text-dark p-2" style="background-color: #a8adb8;">
-                                                <b>16-03-2002</b>
+                                                <b>{{ client.date_of_birth }}</b>
                                             </div>
                                         </div>
 
@@ -132,9 +133,15 @@
                                             <div class="row row-cols-1 p-lg-2">
                                                 <div class="col"><b>Sex / Пол:</b></div>
                                             </div>
+                                            {% with gender=client.gender %}
                                             <div class="text-dark p-2" style="background-color: #a8adb8;">
+                                                {% if gender == 'male' %}
                                                 <b>Male / Мужчина</b>
+                                                {% else %}
+                                                <b>Female / Женщина</b>
+                                                {% endif %}
                                             </div>
+                                            {% endwith %}
                                         </div>
 
                                         <!-- card 9 item -->
@@ -143,7 +150,7 @@
                                                 <div class="col"><b>Analysis date / Дата сдачи анализа:</b></div>
                                             </div>
                                             <div class="text-dark p-2" style="background-color: #a8adb8;">
-                                                <b>21-07-2021 | 13:31</b>
+                                                <b>{{ client.test_olindi }}</b>
                                             </div>
                                         </div>
 
@@ -153,12 +160,12 @@
                                                 <div class="col"><b>Test result and date / Результат и дата теста:</b></div>
                                             </div>
                                             <div class="text-dark p-2" style="background-color: #a8adb8;">
-                                                <b>FA3261313</b>
+                                                <b>{{ client.natija_chiqdi }}</b>
                                             </div>
                                         </div><br>
 
                                         <div class="card">
-                                            <img style="width: 300px; height: 300px;" src="..." alt="..." class="img-thumbnail">
+                                            <img style="width: 300px; height: 300px;" src="{{ client.qrcode.url }}" class="img-thumbnail">
                                         </div><br><br><br>
 
 
