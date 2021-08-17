@@ -37,3 +37,9 @@ class Client(models.Model):
 
     class Meta:
         ordering = ('-id',)
+
+
+class Info(models.Model):
+    research_method = models.CharField(max_length=255)
+    name_of_labaratory = models.CharField(max_length=255)
+    head_of_labaratory = models.CharField(max_length=255)
