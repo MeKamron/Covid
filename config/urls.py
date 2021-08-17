@@ -22,6 +22,7 @@ from config.settings import DEBUG
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('account.urls')),
     path('people/', include('clients.urls')),
 ]
 
