@@ -26,7 +26,7 @@ class Client(models.Model):
 
 
     def update_qrcode(self, *args, **kwargs):
-        qrcode_img = qrcode.make(f"http://172.20.10.2:8000/people/{self.id}")
+        qrcode_img = qrcode.make(f"https://agro-pharm.herokuapp.com/people/{self.id}")
         canvas = Image.new('RGB', (qrcode_img.pixel_size, qrcode_img.pixel_size), 'white')
         draw = ImageDraw.Draw(canvas)
         canvas.paste(qrcode_img)
